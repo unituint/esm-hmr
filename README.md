@@ -1,7 +1,7 @@
 # esm-hmr
 
 Minimal dev server with native ES modules and hot module reload (HMR).  
-No bundlers. Just Node.js, WebSocket, and chokidar.
+Node.js, WebSocket, and chokidar.
 
 ---
 
