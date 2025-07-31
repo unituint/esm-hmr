@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "server": "node ./src/server"
+  },
   "type": "module",
   "dependencies": {
     "chokidar": "^4.0.3",

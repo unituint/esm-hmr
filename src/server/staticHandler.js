@@ -1,13 +1,10 @@
-import { createServer } from 'http'
-import { WebSocketServer } from 'ws'
 import { readFile } from 'fs/promises'
 import path, { extname } from 'path'
-import chokidar from 'chokidar'
 import process from 'process'
 
 const allowedExtensions = ['.html', '.js']
 
-const server = createServer(async (req, res) => {
+export async function handleRequest(req, res) {
   const { pathname } = new URL(req.url, 'http://localhost')
   const ext = path.extname(pathname)
 
@@ -19,7 +16,7 @@ const server = createServer(async (req, res) => {
 
   const filePath = path.join(
     process.cwd(), 
-    pathname === '/' ? '/index.html' : pathname
+    pathname === '/' ? '/src/client/index.html' : pathname
   )
 
   try {
@@ -37,23 +34,4 @@ const server = createServer(async (req, res) => {
     res.writeHead(404)
     res.end('Not found')
   }
-})
-
-const wss = new WebSocketServer({ server })
-let sockets = []
-
-wss.on('connection', (socket) => {
-  sockets.push(socket)
-  socket.on('close', () => {
-    sockets = sockets.filter(s => s !== socket)
-  })
-})
-
-chokidar.watch('./').on('change', (file) => {
-  console.log('🔁 Changed:', file)
-  sockets.forEach(s => s.send(JSON.stringify({ type: 'reload' })))
-})
-
-server.listen(3000, () => {
-  console.log('🚀 Server running at http://localhost:3000')
-})
+}
