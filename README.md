@@ -9,7 +9,7 @@ Node.js, WebSocket, and chokidar.
 
 ```bash
 npm install
-node server.js
+npm run server
 
 # Open http://localhost:3000 in your browser
 
